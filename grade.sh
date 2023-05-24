@@ -1,0 +1,38 @@
+CPATH='.:lib/hamcrest-core-1.3.jar:lib/junit-4.13.2.jar'
+
+rm -rf student-submission
+rm -rf grading-area
+
+mkdir grading-area
+
+git clone $1 student-submission
+echo 'Finished cloning'
+
+if [[ -f 'find student-submission/ListExamples.java' ]]
+then   
+    echo 'File submitted'
+else 
+ 
+    echo 'File sumbitted incorrectly'
+fi 
+
+cp -R student-submission/-grading-area
+cp -R TestListExamples.java/-grading-area
+cp -R lib grading-area 
+
+cd grading-area
+javac -cp .:lib/hamcrest-core-1.3.jar:lib/junit-4.13.2.jar *.java TestListExamples.java
+
+if [[ $? -ne 0 ]] # error code of the last command error code will be non zero
+then 
+echo 'something is wrong.'
+fi 
+
+java -cp .:lib/hamcrest-core-1.3.jar:lib/junit-4.13.2.jar org.junit.runner.JUnitCore ArrayTests TestListExamples.java
+
+
+# Draw a picture/take notes on the directory structure that's set up after
+# getting to this point
+
+# Then, add here code to compile and run, and do any post-processing of the
+# tests
